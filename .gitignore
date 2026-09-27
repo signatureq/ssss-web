@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+.sites-runtime/
+.impeccable/review/
+.impeccable/
+.env
+.env.*
+!.env.example
