@@ -190,7 +190,7 @@ Manrope is self-hosted from `/fonts/manrope-regular.ttf`, `manrope-semibold.ttf`
 
 The frontmatter captures actual desktop roles rather than an invented modular scale. The complete wordmark is a centered flex composition without horizontal stretching: the name uses 600 weight and 0.9 line height; the slash is 0.7em/400; the role uses 500 weight and 0.99 line height. Its name and role scale at 22vw and 6.5vw within the documented clamps. The full header nickname is 19px/600 and the footer nickname 18px/600, both with −0.025em tracking. Headings generally use 500 weight and −0.04em tracking. About copy is limited to 510px, service descriptions to 410px. Supporting about prose is 15px/1.8, distinct from the 14px service body role.
 
-At 640px and below, the wordmark name is 21vw and role 6.3vw; header and footer nicknames are 15px and 17px. The centered hero title is `clamp(31px, 7.7vw, 49px)`/1.12; the reveal title is `clamp(34px, 8.5vw, 52px)`/1.2; service titles are 27px; contact type is `clamp(42px, 11.2vw, 69px)`/1.1. Service descriptions remain 14px. Functional scene labels and service tags remain 11px; the hero baseline uses 10px.
+At 640px and below, the wordmark name is 21vw and role 6.3vw; header and footer nicknames are 15px and 17px. The centered hero title is `clamp(31px, 8.6vw, 54px)`/1.12; the reveal title is `clamp(34px, 8.5vw, 52px)`/1.2; service titles are 27px; contact type is `clamp(42px, 11.2vw, 69px)`/1.1. Service descriptions remain 14px. Functional scene labels and service tags remain 11px; the hero baseline uses 10px.
 
 ## Layout
 
@@ -201,7 +201,7 @@ Use the fluid gutter token, changing to 22px at 640px. Main dark sections have a
 - **At 640px and below:** use single-column content, 95px about spacing, a 93px header, and a `max(94svh, 760px)` hero bounded by 760–1100px. Centered hero copy begins 155px from the top with 18px side insets; the complete wordmark sits 85px above the bottom. The scene precedes the service list; its aspect ratio is 1.05. The footer wraps.
 - **Desktop service scene:** above 1000px with no reduced-motion preference, the visual stays sticky at 110px while service rows occupy `clamp(290px, 44svh, 430px)` minimum height. Scrolling never switches scenes. Selection only follows a click or keyboard activation and never scrolls the page.
 
-The process section uses 120px/50px vertical padding and a 1656px content maximum. Its three equal step columns have a 6vw gap; at 640px they stack with a 34px gap, 70px/35px section padding, and the torus placed below the introduction.
+The process section uses 120px/50px vertical padding and a 1656px content maximum. Its three equal step columns have a 6vw gap; at 640px they stack with a 34px gap, 70px/35px section padding, and the torus placed below the introduction. The step rules have an additional top margin of 80px on desktop, 70px at 1000px and below, and 32px at 640px and below, keeping clear of the torus canvas throughout its rotation.
 
 ## Elevation & Depth
 
