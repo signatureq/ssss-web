@@ -2,7 +2,7 @@
 
 Персональный сайт-визитка о веб-дизайне и разработке. Telegram: [@added08](https://t.me/added08).
 
-Сайт: [signatureq.github.io/ssss-web-developer](https://signatureq.github.io/ssss-web-developer/).
+Основной домен: [ssss-web.ru](https://ssss-web.ru/). Хостинг — GitHub Pages.
 
 Визуальное направление вдохновлено midu.design. Вёрстка, тексты, графика и WebGL-эффект написаны для этого проекта; чужие работы и отзывы не используются.
 
@@ -30,14 +30,28 @@ npm run preview
 
 GitHub Pages автоматически обновляется после push в `main`. Workflow `.github/workflows/deploy.yml` устанавливает зависимости, собирает сайт и публикует `dist`.
 
-Для сборки с путями GitHub Pages:
+Сборка для собственного домена использует корневой путь `/`:
 
 ```sh
-BASE_PATH=/ssss-web-developer/ npm run build
-BASE_PATH=/ssss-web-developer/ npm run preview
+npm run build
+npm run preview
 ```
 
 Локальная разработка остаётся на корневом пути `/`. В настройках репозитория Pages выбран источник GitHub Actions.
+
+## Домен
+
+В GitHub Pages указан Custom domain `ssss-web.ru`. В DNS-панели домена нужны следующие записи:
+
+| Тип | Имя | Значение |
+| --- | --- | --- |
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | signatureq.github.io |
+
+TTL — 3600 секунд или значение по умолчанию. После распространения DNS GitHub выпускает сертификат; в Pages нужно проверить состояние сертификата и Enforce HTTPS. При публикации через Actions отдельный файл CNAME не требуется.
 
 ## Состав
 
