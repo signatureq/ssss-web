@@ -102,7 +102,7 @@ const serviceButtons = [...document.querySelectorAll(".service")];
 const scenes = {
   design: ["Структура и визуальный язык", "01 — 03"],
   code: ["Адаптивная вёрстка", "02 — 03"],
-  motion: ["Переходы и реакции", "03 — 03"],
+  quality: ["Проверка перед запуском", "03 — 03"],
 };
 function selectService(button) {
   serviceButtons.forEach((item) => {
@@ -116,28 +116,7 @@ function selectService(button) {
   sceneIndex.textContent = index;
 }
 serviceButtons.forEach((button) =>
-  button.addEventListener("click", () => {
-    selectService(button);
-    if (!motionPreference.matches && window.innerWidth > 1000) {
-      lenis?.scrollTo(button, { offset: -window.innerHeight * 0.3 });
-    }
-  }),
-);
-
-const serviceMedia = gsap.matchMedia();
-serviceMedia.add(
-  "(min-width: 1001px) and (prefers-reduced-motion: no-preference)",
-  () => {
-    serviceButtons.forEach((button) => {
-      ScrollTrigger.create({
-        trigger: button,
-        start: "top 55%",
-        end: "bottom 55%",
-        onEnter: () => selectService(button),
-        onEnterBack: () => selectService(button),
-      });
-    });
-  },
+  button.addEventListener("click", () => selectService(button)),
 );
 
 if (!reduced) {

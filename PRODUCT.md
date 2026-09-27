@@ -16,7 +16,7 @@ Assumption from brief: prospective clients who need a website and visual design.
 
 ## Capabilities and Constraints
 
-Single-page presentation, strong motion and scroll effects, responsive layout, direct Telegram contact. No supplied portfolio, claims, clients, prices or testimonials; do not invent any.
+Single-page presentation, responsive layout, direct Telegram contact. Services emphasize design, development, and stable operation: loading speed, browser checks, and working navigation. Visual effects support the presentation but are not marketed as a service. The capability scene uses manual selection and must not jump or change layout while scrolling. No supplied portfolio, claims, clients, prices or testimonials; do not invent any.
 
 ## Brand Commitments
 
