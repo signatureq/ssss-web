@@ -1,0 +1,32 @@
+name: Diagnose custom domain
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  dns:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check public DNS from GitHub
+        shell: bash
+        run: |
+          for resolver in default 8.8.8.8 1.1.1.1 ns1.reg.ru ns2.reg.ru; do
+            for domain in ssss-web.ru www.ssss-web.ru; do
+              for type in A AAAA CNAME MX NS SOA CAA; do
+                args=()
+                if [[ "$resolver" != default ]]; then
+                  args+=("@$resolver")
+                fi
+                echo "DNS resolver=$resolver domain=$domain type=$type"
+                dig "${args[@]}" "$domain" "$type" +time=2 +tries=1 +noall +comments +answer +authority || true
+              done
+            done
+          done
+      - name: Check HTTP and HTTPS
+        shell: bash
+        run: |
+          curl --silent --show-error --head --connect-timeout 10 --max-time 20 http://ssss-web.ru/
+          curl --silent --show-error --head --connect-timeout 10 --max-time 20 https://ssss-web.ru/ || true
