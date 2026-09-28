@@ -1267,7 +1267,6 @@ h2 {
   transition: background 0.4s;
 }
 .site-header.scrolled {
-  height: 82px;
   background: #080808f5;
 }
 .wordmark-star svg {
@@ -1413,7 +1412,7 @@ h2 {
   max-height: 1400px;
 }
 .hero-lead {
-  top: clamp(155px, 17svh, 230px);
+  top: clamp(175px, 19svh, 250px);
   left: var(--gutter);
   right: var(--gutter);
   text-align: center;
@@ -1589,7 +1588,7 @@ h2 {
     min-height: 840px;
   }
   .hero-lead {
-    top: 170px;
+    top: 190px;
     left: var(--gutter);
   }
   .hero-lead h1 {
@@ -1662,7 +1661,7 @@ h2 {
     max-height: 1100px;
   }
   .hero-lead {
-    top: 155px;
+    top: 175px;
     left: 18px;
     right: 18px;
   }

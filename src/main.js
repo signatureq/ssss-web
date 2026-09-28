@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "lenis/dist/lenis.css";
 import { createProcessArt } from "./process.js";
+import { createHeroLight } from "./hero-light.js";
 
 gsap.registerPlugin(ScrollTrigger);
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -69,11 +70,11 @@ document.addEventListener("keydown", (event) => {
     }
   }
 });
-window.addEventListener(
-  "scroll",
-  () => header.classList.toggle("scrolled", window.scrollY > 40),
-  { passive: true },
-);
+function updateHeader() {
+  header.classList.toggle("scrolled", window.scrollY > 40);
+}
+window.addEventListener("scroll", updateHeader, { passive: true });
+updateHeader();
 document.querySelector(".brand").addEventListener("click", () => {
   if (menuOpen) setMenu(false);
 });
@@ -152,14 +153,8 @@ if (!reduced) {
     },
   );
   gsap.from(".hero-lead", {
-    y: 22,
-    opacity: 0.65,
-    duration: 1.4,
-    ease: "power3.out",
-  });
-  gsap.from(".hero-wordmark", {
-    yPercent: 10,
-    duration: 1.7,
+    opacity: 0.82,
+    duration: 1,
     ease: "power3.out",
   });
   gsap.to(".about-mark svg", {
@@ -194,178 +189,11 @@ if (!reduced) {
   );
 }
 
-// The hero light is drawn locally. No external iframe, image or tracking dependency.
-const canvas = document.querySelector("#hero-canvas");
-const gl = canvas.getContext("webgl", {
-  alpha: false,
-  antialias: false,
-  powerPreference: "low-power",
-  preserveDrawingBuffer: false,
-});
-if (gl) {
-  const vertexSource =
-    "attribute vec2 position; void main(){gl_Position=vec4(position,0.,1.);}";
-  const fragmentSource = `
-    precision mediump float;
-    uniform vec2 resolution;
-    uniform vec2 pointer;
-    uniform float time;
-    uniform float scroll;
-    float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
-    float noise(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f); return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y); }
-    void main(){
-      vec2 uv=gl_FragCoord.xy/resolution;
-      float t=time*.13;
-      vec2 p=uv;
-      p.x+=(pointer.x-.5)*.065;
-      p.y+=(pointer.y-.5)*.045;
-      p.y+=scroll*.18;
-      float n=noise(vec2(p.x*2.8+t*.3,p.y*2.-t*.2));
-      float wave=.14 + .15*sin(p.x*5.3+t) + .08*cos(p.x*8.-t*.7);
-      float field=p.y-wave-(n-.5)*.24;
-      float plume=exp(-pow(field/ .25,2.));
-      float ember=exp(-pow(field/.135,2.));
-      float core=exp(-pow((field+.065)/.058,2.));
-      float left=exp(-length((p-vec2(-.08,.2+sin(t)*.09))*vec2(1.8,1.8))*2.6);
-      float right=exp(-length((p-vec2(1.1,.17+cos(t)*.1))*vec2(1.8,2.0))*3.2);
-      vec3 color=vec3(.025,.025,.024);
-      color+=vec3(.39,.023,.008)*plume;
-      color+=vec3(.52,.08,.025)*ember;
-      color+=vec3(.12,.18,.10)*core*(.35+.65*noise(vec2(p.x*3.+t,.5)));
-      color+=vec3(.42,.047,.01)*(left+right);
-      float darkness=1.-smoothstep(.18,.72,p.y);
-      color=mix(vec3(.027),color,darkness);
-      float grain=(hash(gl_FragCoord.xy)-.5)*.032;
-      gl_FragColor=vec4(color+grain,1.);
-    }`;
-  function compile(type, source) {
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      gl.deleteShader(shader);
-      return null;
-    }
-    return shader;
+// The hero background owns its local clock and pointer easing.
+createHeroLight(document.querySelector("#hero-canvas"), motionPreference);
+motionPreference.addEventListener("change", () => {
+  if (motionPreference.matches) {
+    lenis?.destroy();
+    lenis = undefined;
   }
-  const vertex = compile(gl.VERTEX_SHADER, vertexSource);
-  const fragment = compile(gl.FRAGMENT_SHADER, fragmentSource);
-  if (vertex && fragment) {
-    const program = gl.createProgram();
-    gl.attachShader(program, vertex);
-    gl.attachShader(program, fragment);
-    gl.linkProgram(program);
-    if (gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      gl.useProgram(program);
-      const buffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-      gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-        gl.STATIC_DRAW,
-      );
-      const position = gl.getAttribLocation(program, "position");
-      gl.enableVertexAttribArray(position);
-      gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
-      const uniforms = {
-        resolution: gl.getUniformLocation(program, "resolution"),
-        pointer: gl.getUniformLocation(program, "pointer"),
-        time: gl.getUniformLocation(program, "time"),
-        scroll: gl.getUniformLocation(program, "scroll"),
-      };
-      let visible = true,
-        active = true,
-        raf = 0,
-        lastFrame = 0;
-      let targetX = 0.5,
-        targetY = 0.5,
-        currentX = 0.5,
-        currentY = 0.5;
-      function resize() {
-        const rect = canvas.getBoundingClientRect();
-        const ratio = Math.min(
-          window.devicePixelRatio || 1,
-          1.5,
-          1600 / Math.max(rect.width, 1),
-        );
-        canvas.width = Math.round(rect.width * ratio);
-        canvas.height = Math.round(rect.height * ratio);
-        gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
-        if (motionPreference.matches) draw(5000);
-      }
-      function draw(now) {
-        currentX += (targetX - currentX) * 0.045;
-        currentY += (targetY - currentY) * 0.045;
-        gl.uniform2f(uniforms.pointer, currentX, currentY);
-        gl.uniform1f(uniforms.time, now / 1000);
-        gl.uniform1f(
-          uniforms.scroll,
-          motionPreference.matches
-            ? 0
-            : Math.min(Math.max(window.scrollY / canvas.clientHeight, 0), 1),
-        );
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-      }
-      function tick(now) {
-        if (
-          !active ||
-          !visible ||
-          document.hidden ||
-          motionPreference.matches
-        ) {
-          raf = 0;
-          return;
-        }
-        if (now - lastFrame > 30) {
-          draw(now);
-          lastFrame = now;
-        }
-        raf = requestAnimationFrame(tick);
-      }
-      function resume() {
-        if (
-          !raf &&
-          active &&
-          visible &&
-          !document.hidden &&
-          !motionPreference.matches
-        )
-          raf = requestAnimationFrame(tick);
-      }
-      new ResizeObserver(resize).observe(canvas);
-      new IntersectionObserver(([entry]) => {
-        visible = entry.isIntersecting;
-        resume();
-      }).observe(canvas);
-      document.querySelector(".hero").addEventListener(
-        "pointermove",
-        (event) => {
-          const rect = canvas.getBoundingClientRect();
-          targetX = event.clientX / rect.width;
-          targetY = 1 - (event.clientY - rect.top) / rect.height;
-        },
-        { passive: true },
-      );
-      document.addEventListener("visibilitychange", resume);
-      motionPreference.addEventListener("change", () => {
-        if (motionPreference.matches) {
-          cancelAnimationFrame(raf);
-          raf = 0;
-          draw(5000);
-          lenis?.destroy();
-          lenis = undefined;
-        } else resume();
-      });
-      canvas.addEventListener("webglcontextlost", (event) => {
-        event.preventDefault();
-        active = false;
-        cancelAnimationFrame(raf);
-        canvas.style.opacity = "0";
-      });
-      resize();
-      draw(5000);
-      resume();
-    } else canvas.style.display = "none";
-  } else canvas.style.display = "none";
-}
+});
