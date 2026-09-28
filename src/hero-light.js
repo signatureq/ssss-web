@@ -27,33 +27,34 @@ export function createHeroLight(canvas, motionPreference) {
     }
     void main() {
       vec2 uv = gl_FragCoord.xy / resolution;
-      float t = time * .075 + 1.1;
+      float t = time * .28 + 1.1;
       vec2 p = uv;
       p += (pointer - .5) * vec2(.12, .08);
       p.y += scroll * .08;
 
       // Two slow currents bend the light rather than moving a flat gradient.
       vec2 flow = vec2(
-        noise(p*vec2(2.1,1.8) + vec2(t*.28,-t*.16)),
-        noise(p*vec2(1.7,2.2) + vec2(-t*.19,t*.22))
+        noise(p*vec2(2.1,1.8) + vec2(t*.55,-t*.28)),
+        noise(p*vec2(1.7,2.2) + vec2(-t*.42,t*.35))
       );
-      p += (flow - .5) * vec2(.16,.12);
-      float wave = .16 + .105*sin(p.x*4.6+t*.65)
-                        + .065*cos(p.x*7.1-t*.48);
-      float field = p.y - wave - (flow.x-.5)*.22;
+      p += (flow - .5) * vec2(.22,.16);
+      float wave = .18 + .15*sin(p.x*4.6+t*.9)
+                        + .085*cos(p.x*7.1-t*.7);
+      float field = p.y - wave - (flow.x-.5)*.30;
       float plume = exp(-pow(field/.27,2.));
       float ember = exp(-pow(field/.15,2.));
       float core = exp(-pow((field+.045)/.065,2.));
-      float breath = .88 + .12*sin(t*.55+p.x*2.4);
-      float left = exp(-length((p-vec2(-.08,.18+.045*sin(t*.7)))
+      float breath = .80 + .20*sin(t*1.2+p.x*3.);
+      float flare = .5 + .5*sin(p.x*5.4-t*1.15+flow.y*2.);
+      float left = exp(-length((p-vec2(-.08,.18+.11*sin(t*.9)))
                             * vec2(1.9,2.1))*2.6);
-      float right = exp(-length((p-vec2(1.08,.14+.055*cos(t*.6)))
+      float right = exp(-length((p-vec2(1.08,.14+.12*cos(t*.8)))
                              * vec2(1.9,2.))*3.);
 
       vec3 color = vec3(.027);
-      color += vec3(.42,.016,.006)*plume*breath;
-      color += vec3(.46,.06,.017)*ember;
-      color += vec3(.16,.10,.035)*core*(.6+.4*flow.y);
+      color += vec3(.48,.016,.006)*plume*breath;
+      color += mix(vec3(.38,.022,.009),vec3(.62,.12,.025),flare)*ember;
+      color += vec3(.23,.14,.045)*core*(.45+.55*flare);
       color += vec3(.28,.028,.007)*(left+right);
       color = mix(vec3(.027),color,1.-smoothstep(.20,.74,uv.y));
       float grain = (hash(gl_FragCoord.xy)-.5)*.025;
