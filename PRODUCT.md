@@ -16,7 +16,7 @@ Assumption from brief: prospective clients who need a website and visual design.
 
 ## Capabilities and Constraints
 
-Single-page presentation, responsive layout, direct Telegram contact. Services emphasize design, development, and stable operation: loading speed, browser checks, and working navigation. Visual effects support the presentation but are not marketed as a service. The capability scene uses manual selection and must not jump or change layout while scrolling. No supplied portfolio, claims, clients, prices or testimonials; do not invent any.
+Single-page presentation, responsive layout, direct Telegram contact. Services emphasize design, development, and stable operation: loading speed, browser checks, and working navigation. Visual effects support the presentation but are not marketed as a service. The capability scene uses manual selection and must not jump or change layout while scrolling. The portfolio contains four owner-supplied projects: https://krasnodarkvartir.ru/, https://dobroitortiki.ru/, https://whitestudio-ekb.ru/, and https://best-trans.su/. Use screenshots of their published homepages and a separate “Портфолио” navigation item. No supplied claims, clients, prices or testimonials; do not invent any.
 
 ## Brand Commitments
 
