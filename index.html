@@ -409,19 +409,55 @@
             Сделаем<br /><span>что-то</span> <em>особенное.</em>
           </h2>
           <div class="contact-bottom">
-            <p>Напишите, какой сайт вам нужен.<br />Обсудим задачу, сроки и стоимость.</p>
-            <a
-              class="telegram-link"
-              href="https://t.me/added08"
-              target="_blank"
-              rel="noopener noreferrer"
-              ><span
-                >Написать в Telegram<span class="telegram-handle"
-                  >@added08</span
-                ></span
-              ><span class="telegram-arrow"
-                ><svg><use href="#arrow" /></svg></span
-            ></a>
+            <div class="contact-intro">
+              <p>Напишите, какой сайт вам нужен.<br />Обсудим задачу, сроки и стоимость.</p>
+              <a
+                class="telegram-link"
+                href="https://t.me/added08"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span
+                  >Написать в Telegram<span class="telegram-handle"
+                    >@added08</span
+                  ></span
+                ><span class="telegram-arrow" aria-hidden="true"
+                  ><svg><use href="#arrow" /></svg></span
+              ></a>
+            </div>
+            <form
+              class="contact-form"
+              action="https://formsubmit.co/anapa2007@macrowback.xyz"
+              method="POST"
+              aria-label="Заявка на разработку сайта"
+              aria-describedby="contact-form-note"
+            >
+              <input type="hidden" name="_subject" value="Новая заявка — ssss / web developer" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_url" value="http://ssss-web.ru/#contact" />
+              <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
+              <fieldset class="contact-fields" aria-label="Ваши контакты и задача">
+                <div class="contact-field-row">
+                  <label class="contact-field" for="contact-name">
+                    <span>Ваше имя</span>
+                    <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" maxlength="100" required />
+                  </label>
+                  <label class="contact-field" for="contact-email">
+                    <span>Почта для ответа</span>
+                    <input id="contact-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required />
+                  </label>
+                </div>
+                <label class="contact-field" for="contact-message">
+                  <span>О проекте</span>
+                  <textarea id="contact-message" name="message" rows="5" placeholder="Какой сайт нужен и что он должен делать" maxlength="5000" required></textarea>
+                </label>
+                <button class="contact-submit" type="submit">
+                  <span class="contact-submit-label">Отправить заявку</span>
+                  <svg aria-hidden="true"><use href="#arrow" /></svg>
+                </button>
+              </fieldset>
+              <p class="contact-status" role="status" aria-live="polite" aria-atomic="true"></p>
+              <p class="contact-form-note" id="contact-form-note">Все поля обязательны. Данные формы передаются через <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a>, чтобы я мог ответить на заявку.</p>
+            </form>
           </div>
         </div>
         <footer class="site-footer">

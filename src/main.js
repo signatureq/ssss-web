@@ -4,6 +4,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "lenis/dist/lenis.css";
 import { createProcessArt } from "./process.js";
 import { createHeroLight } from "./hero-light.js";
+import { initContactForm } from "./contact-form.js";
+
+initContactForm(document.querySelector(".contact-form"));
 
 gsap.registerPlugin(ScrollTrigger);
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
