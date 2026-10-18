@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { after, before, test } from "node:test";
-import { sendContactMessage } from "../src/contact-form.js";
+import { createContactPayload, sendContactMessage } from "../src/contact-form.js";
 
 let origin;
 let received;
@@ -37,6 +37,25 @@ test("posts all form fields to the AJAX endpoint and accepts confirmed success",
   assert.equal(received.headers["content-type"], "application/json");
   assert.equal(received.headers.accept, "application/json");
   assert.deepEqual(received.payload, payload);
+});
+
+test("preserves Russian email labels and sets the visitor as Reply-To", async () => {
+  const formData = new FormData();
+  for (const [key, value] of Object.entries({
+    Имя: "Тест",
+    Почта: "visitor@example.com",
+    Сообщение: "Нужен сайт",
+    _subject: "Новая заявка с сайта",
+    _template: "basic",
+    _honey: "",
+  })) formData.set(key, value);
+  await sendContactMessage(`${origin}/recipient`, createContactPayload(formData));
+  assert.equal(received.payload.Имя, "Тест");
+  assert.equal(received.payload.Сообщение, "Нужен сайт");
+  assert.equal(received.payload._replyto, received.payload.Почта);
+  assert.equal(received.payload._subject, "Новая заявка с сайта");
+  assert.equal(received.payload.email, undefined);
+  assert.equal(received.payload.message, undefined);
 });
 
 test("does not mistake the service's string false for success", async () => {

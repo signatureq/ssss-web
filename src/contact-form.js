@@ -29,6 +29,12 @@ export async function sendContactMessage(
   }
 }
 
+export function createContactPayload(formData) {
+  const payload = Object.fromEntries(formData);
+  payload._replyto = payload["Почта"];
+  return payload;
+}
+
 export function initContactForm(form) {
   if (!form) return;
   const fields = form.querySelector("fieldset");
@@ -52,7 +58,7 @@ export function initContactForm(form) {
     }
     if (!form.reportValidity()) return;
 
-    const payload = Object.fromEntries(new FormData(form));
+    const payload = createContactPayload(new FormData(form));
     pending = true;
     fields.disabled = true;
     form.setAttribute("aria-busy", "true");
