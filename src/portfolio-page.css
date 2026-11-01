@@ -236,29 +236,6 @@
   grid-column: 1 / span 4;
   grid-row: 1;
 }
-.browser-bar {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  height: 40px;
-  padding: 0 16px;
-  border-bottom: 1px solid #222220;
-  font-size: 12px;
-  color: #8a867e;
-}
-.browser-bar i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #34332f;
-}
-.browser-bar span {
-  margin-inline: auto;
-  padding: 4px 14px;
-  border-radius: 99px;
-  background: #1c1c1a;
-  transform: translateX(-20px);
-}
 .work-frame {
   display: block;
   aspect-ratio: 8 / 5;
@@ -502,19 +479,6 @@
   }
   .work-info h2 {
     margin-top: 18px;
-  }
-  .browser-bar {
-    height: 32px;
-    padding: 0 12px;
-    font-size: 10px;
-  }
-  .browser-bar i {
-    width: 7px;
-    height: 7px;
-  }
-  .browser-bar span {
-    transform: none;
-    padding: 3px 10px;
   }
   .work-media {
     border-radius: 9px;
