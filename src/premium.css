@@ -1170,3 +1170,118 @@
     font-size: 5.2vw;
   }
 }
+
+/* Hero: the service line sits inside the H1; the direct-work promise is the subtitle. */
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: clamp(18px, 2vw, 30px);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f0d2b8;
+  animation: fade-in 1s ease both;
+  animation-delay: var(--intro-delay);
+}
+.hero-kicker::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.hero-lead .hero-sub {
+  max-width: 620px;
+  margin: 30px auto 0;
+  font-size: 19px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: #d9c8bb;
+}
+.hero-sub strong {
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* «Почему со мной удобно»: four plain promises taken from how the work is done. */
+.perks {
+  margin-top: clamp(90px, 9vw, 150px);
+  padding-top: clamp(50px, 5vw, 80px);
+  border-top: 1px solid var(--line);
+}
+.perks-title {
+  margin: 0 0 clamp(40px, 4vw, 64px);
+  font-size: clamp(30px, 3.4vw, 56px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+.perks-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(28px, 3vw, 56px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.perk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.perk-num {
+  font-size: 12px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.perk h3 {
+  margin: 16px 0 12px;
+  font-size: clamp(20px, 1.7vw, 26px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+}
+.perk p {
+  max-width: 280px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.footer-tagline {
+  margin-right: auto;
+}
+@media (max-width: 1000px) {
+  .perks-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 48px;
+  }
+}
+@media (max-width: 640px) {
+  .hero-kicker {
+    gap: 9px;
+    margin-bottom: 18px;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+  }
+  .hero-lead .hero-sub {
+    max-width: 320px;
+    margin-top: 22px;
+    font-size: 15px;
+  }
+  .perks {
+    margin-top: 80px;
+    padding-top: 48px;
+  }
+  .perks-list {
+    grid-template-columns: 1fr;
+    row-gap: 36px;
+  }
+  .footer-tagline {
+    display: none;
+  }
+}

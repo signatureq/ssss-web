@@ -1,0 +1,41 @@
+/* 404: the hero's warm light behind one short message. */
+.not-found {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 120px var(--gutter) 80px;
+  overflow: hidden;
+  text-align: center;
+}
+.not-found-code {
+  font-size: clamp(120px, 26vw, 420px);
+  font-weight: 600;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: #ecdcc1;
+}
+.not-found h1 {
+  font-size: clamp(32px, 4.4vw, 72px);
+  line-height: 1.08;
+}
+.not-found-copy {
+  max-width: 420px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #d4c3b4;
+}
+.not-found-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px 40px;
+  margin-top: 12px;
+}
+.not-found-links .text-link {
+  font-size: 15px;
+}

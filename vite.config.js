@@ -8,6 +8,7 @@ export default defineConfig({
       input: {
         main: resolve(import.meta.dirname, "index.html"),
         portfolio: resolve(import.meta.dirname, "portfolio/index.html"),
+        notFound: resolve(import.meta.dirname, "404.html"),
       },
     },
   },

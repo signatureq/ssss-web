@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#080808" />
+    <title>Страница не найдена — stepan / web developer</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/premium.css" />
+    <link rel="stylesheet" href="/src/not-found.css" />
+  </head>
+  <body class="not-found-page">
+    <svg class="svg-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14" /></symbol>
+        <symbol id="spark" viewBox="0 0 32 32">
+          <path d="M16 0c0 11-5 16-16 16 11 0 16 5 16 16 0-11 5-16 16-16C21 16 16 11 16 0Z" />
+        </symbol>
+      </defs>
+    </svg>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="stepan / web developer — на главную"
+        ><svg aria-hidden="true"><use href="#spark" /></svg
+        ><span class="brand-full">stepan / web developer</span></a
+      >
+    </header>
+    <main class="not-found">
+      <div class="light-field" aria-hidden="true"></div>
+      <p class="not-found-code" aria-hidden="true">404</p>
+      <h1>Такой страницы нет.</h1>
+      <p class="not-found-copy">Возможно, ссылка устарела. Главная и портфолио — на месте.</p>
+      <div class="not-found-links">
+        <a class="text-link" href="/">На главную<svg aria-hidden="true"><use href="#arrow" /></svg></a>
+        <a class="text-link" href="/portfolio/">Портфолио<svg aria-hidden="true"><use href="#arrow" /></svg></a>
+      </div>
+    </main>
+  </body>
+</html>
