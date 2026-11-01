@@ -1285,3 +1285,7 @@
     display: none;
   }
 }
+.perk-link {
+  margin-top: 14px;
+  color: var(--text);
+}
