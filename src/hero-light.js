@@ -104,7 +104,7 @@ export function createHeroLight(canvas, motionPreference) {
     ]),
   );
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
-  const hero = canvas.closest(".hero");
+  const hero = canvas.closest(".hero, .works-hero");
   let visible = true, active = true, raf = 0, lastFrame = 0, elapsed = 0;
   let targetX = .5, targetY = .5, currentX = .5, currentY = .5, currentScroll = 0;
 

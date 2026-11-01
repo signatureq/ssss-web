@@ -1,103 +1,11 @@
-import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import "lenis/dist/lenis.css";
+import { initSite } from "./site.js";
 import { createProcessArt } from "./process.js";
 import { createHeroLight } from "./hero-light.js";
 import { initContactForm } from "./contact-form.js";
 
 initContactForm(document.querySelector(".contact-form"));
 
-gsap.registerPlugin(ScrollTrigger);
-const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-const reduced = motionPreference.matches;
-let lenis;
-if (!reduced) {
-  lenis = new Lenis({
-    duration: 1.15,
-    smoothWheel: true,
-    syncTouch: false,
-    anchors: false,
-  });
-  lenis.on("scroll", ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis?.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
-}
-
-const header = document.querySelector(".site-header");
-const menuButton = document.querySelector(".menu-toggle");
-const menu = document.querySelector(".menu-panel");
-const main = document.querySelector("main");
-let menuOpen = false;
-function setMenu(open, restoreFocus = false) {
-  menuOpen = open;
-  menuButton.setAttribute("aria-expanded", String(open));
-  menuButton.querySelector(".menu-label").textContent = open
-    ? "Закрыть"
-    : "Меню";
-  menu.classList.toggle("open", open);
-  menu.inert = !open;
-  main.inert = open;
-  document.body.classList.toggle("menu-open", open);
-  if (open) {
-    lenis?.stop();
-    menu.querySelector("a").focus({ preventScroll: true });
-  } else {
-    lenis?.start();
-    if (restoreFocus) menuButton.focus({ preventScroll: true });
-  }
-}
-menuButton.addEventListener("click", () => setMenu(!menuOpen));
-menu
-  .querySelectorAll("a")
-  .forEach((link) => link.addEventListener("click", () => setMenu(false)));
-document.addEventListener("keydown", (event) => {
-  if (!menuOpen) return;
-  if (event.key === "Escape") setMenu(false, true);
-  if (event.key === "Tab") {
-    const focusable = [
-      ...header.querySelectorAll("a,button"),
-      ...menu.querySelectorAll("a"),
-    ];
-    const visible = focusable.filter(
-      (element) => element.getClientRects().length,
-    );
-    const first = visible[0];
-    const last = visible.at(-1);
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }
-});
-function updateHeader() {
-  header.classList.toggle("scrolled", window.scrollY > 40);
-}
-window.addEventListener("scroll", updateHeader, { passive: true });
-updateHeader();
-document.querySelector(".brand").addEventListener("click", () => {
-  if (menuOpen) setMenu(false);
-});
-document.querySelectorAll('a[href^="#"]').forEach((link) => {
-  link.addEventListener("click", (event) => {
-    const hash = link.getAttribute("href");
-    const target = document.querySelector(hash);
-    if (!target) return;
-    event.preventDefault();
-    if (menuOpen) setMenu(false);
-    const top = hash === "#top" ? 0 : Math.max(0, target.getBoundingClientRect().top + window.scrollY - 100);
-    if (lenis) {
-      lenis.start();
-      lenis.resize();
-      lenis.scrollTo(top, { duration: 1.15, force: true });
-    } else window.scrollTo({ top, behavior: "instant" });
-    history.replaceState(null, "", hash);
-  });
-});
-document.querySelector("#year").textContent = String(new Date().getFullYear());
+const { reduced, motionPreference, gsap } = initSite();
 
 const scene = document.querySelector(".design-object");
 const caption = document.querySelector("#visual-caption");
@@ -155,11 +63,6 @@ if (!reduced) {
       },
     },
   );
-  gsap.from(".hero-lead", {
-    opacity: 0.82,
-    duration: 1,
-    ease: "power3.out",
-  });
   gsap.to(".about-mark svg", {
     rotation: 130,
     ease: "none",
@@ -170,7 +73,25 @@ if (!reduced) {
       scrub: 1,
     },
   });
-  document.fonts.ready.then(() => ScrollTrigger.refresh());
+  // The wordmark drifts apart slightly as the hero leaves, adding depth without moving copy.
+  gsap.to(".hero-wordmark", {
+    yPercent: 18,
+    opacity: 0.35,
+    ease: "none",
+    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+  });
+  gsap.to(".hero-lead", {
+    yPercent: -30,
+    ease: "none",
+    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+  });
+  gsap.from(".footer-wordmark span", {
+    yPercent: 100,
+    duration: 1.3,
+    ease: "power4.out",
+    stagger: 0.08,
+    scrollTrigger: { trigger: ".footer-wordmark", start: "top 95%", once: true },
+  });
 }
 
 createProcessArt(document.querySelector("#process-canvas"), motionPreference);
@@ -194,9 +115,8 @@ if (!reduced) {
 
 // The hero background owns its local clock and pointer easing.
 createHeroLight(document.querySelector("#hero-canvas"), motionPreference);
-motionPreference.addEventListener("change", () => {
-  if (motionPreference.matches) {
-    lenis?.destroy();
-    lenis = undefined;
-  }
-});
+
+// The intro curtain plays once per visit; afterwards the page opens directly.
+try {
+  sessionStorage.setItem("ssss-intro", "1");
+} catch {}
