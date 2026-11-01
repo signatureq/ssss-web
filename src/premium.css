@@ -159,8 +159,14 @@
 .wm-chars i:nth-child(4) {
   animation-delay: calc(var(--intro-delay) + 0.27s);
 }
+.wm-chars i:nth-child(5) {
+  animation-delay: calc(var(--intro-delay) + 0.32s);
+}
+.wm-chars i:nth-child(6) {
+  animation-delay: calc(var(--intro-delay) + 0.37s);
+}
 .wordmark-divider i {
-  animation-delay: calc(var(--intro-delay) + 0.34s);
+  animation-delay: calc(var(--intro-delay) + 0.44s);
 }
 .wordmark-role .line:first-child > span {
   animation-delay: calc(var(--intro-delay) + 0.4s);
@@ -1074,5 +1080,93 @@
   .flow-circle {
     width: 54px;
     height: 54px;
+  }
+}
+
+/* Centred statements: «Подход» and the services heading read from the middle. */
+.about {
+  text-align: center;
+}
+.about .reveal-text {
+  max-width: 1300px;
+  margin-inline: auto;
+}
+.about-bottom {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 30px;
+  margin-top: clamp(50px, 5vw, 80px);
+}
+.about-mark {
+  padding: 0;
+}
+.about-mark svg {
+  width: 56px;
+  height: 56px;
+}
+.about-copy {
+  max-width: 600px;
+}
+.expertise-heading {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 26px;
+  text-align: center;
+}
+.expertise-heading .section-label {
+  margin-bottom: 0;
+}
+.expertise-heading p {
+  padding-bottom: 0;
+}
+
+/* «stepan» is six letters: the wordmarks shrink so the full lockup still fits one line. */
+.wordmark-name {
+  gap: 2.6vw;
+  font-size: clamp(120px, 17.5vw, 340px);
+}
+.wordmark-role {
+  font-size: clamp(36px, 5.4vw, 104px);
+}
+.footer-wordmark > span:first-child {
+  font-size: clamp(80px, 17.5vw, 300px);
+}
+.footer-wordmark-slash {
+  font-size: clamp(54px, 12vw, 205px);
+}
+.footer-wordmark-role {
+  font-size: clamp(22px, 4.8vw, 86px);
+}
+@media (max-width: 1000px) {
+  .wordmark-name {
+    font-size: 17.5vw;
+  }
+  .wordmark-role {
+    font-size: 5.4vw;
+  }
+}
+@media (max-width: 640px) {
+  .about-mark svg {
+    width: 40px;
+    height: 40px;
+  }
+  .expertise-heading {
+    gap: 20px;
+  }
+  .wordmark-name {
+    gap: 2.2vw;
+    font-size: 17.5vw;
+  }
+  .wordmark-role {
+    font-size: 5.3vw;
+  }
+  .footer-wordmark > span:first-child {
+    font-size: 17vw;
+  }
+  .footer-wordmark-slash {
+    font-size: 11.7vw;
+  }
+  .footer-wordmark-role {
+    font-size: 5.2vw;
   }
 }

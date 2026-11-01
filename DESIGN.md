@@ -1,5 +1,5 @@
 ---
-name: ssss / web developer
+name: stepan / web developer
 description: A personal Russian-language site with cinematic warm light and expressive geometric typography.
 colors:
   accent: "#f45135"
@@ -28,13 +28,13 @@ colors:
 typography:
   wordmark:
     fontFamily: "Manrope, sans-serif"
-    fontSize: "clamp(160px, 22vw, 440px)"
+    fontSize: "clamp(120px, 17.5vw, 340px)"
     fontWeight: 600
     lineHeight: 0.9
     letterSpacing: "-0.04em"
   wordmark-role:
     fontFamily: "Manrope, sans-serif"
-    fontSize: "clamp(45px, 6.5vw, 130px)"
+    fontSize: "clamp(36px, 5.4vw, 104px)"
     fontWeight: 500
     lineHeight: 0.99
     letterSpacing: "-0.04em"
@@ -155,15 +155,15 @@ components:
     textColor: "{colors.text}"
 ---
 
-# Design System: ssss / web developer
+# Design System: stepan / web developer
 
 ## Overview
 
 **Creative North Star: "Warm light through black"**
 
-A quiet near-black canvas carries warm scarlet light, very large Manrope lettering, and generous empty space. The user pinned midu.design as the visual authority; this phrase describes that existing direction rather than introducing a new concept. Wording and procedural artwork are original to ssss / web developer.
+A quiet near-black canvas carries warm scarlet light, very large Manrope lettering, and generous empty space. The user pinned midu.design as the visual authority; this phrase describes that existing direction rather than introducing a new concept. Wording and procedural artwork are original to stepan / web developer.
 
-The full nickname is the indivisible identity ssss / web developer; retain the complete phrase in the header, hero, and footer. Russian copy stays direct, and Telegram @added08 is the contact destination. Large type and the broad red hero glow are deliberate exceptions to generic advice against oversized typography or atmospheric gradients.
+The full nickname is the indivisible identity stepan / web developer; retain the complete phrase in the header, hero, and footer. Russian copy stays direct, and Telegram @added08 is the contact destination. Large type and the broad red hero glow are deliberate exceptions to generic advice against oversized typography or atmospheric gradients.
 
 **Key Characteristics:**
 
@@ -188,13 +188,13 @@ The functional accent is warm scarlet; neutral colors lean slightly warm rather 
 
 Manrope is self-hosted from `/fonts/manrope-regular.ttf`, `manrope-semibold.ttf`, and `manrope-extrabold.ttf`, with Cyrillic support and `font-display: swap`. The declared weight ranges are 400–500, 600–700, and 800 respectively. All interface and prose use `Manrope, sans-serif`; only the illustrative code window uses a system monospace stack.
 
-The frontmatter captures actual desktop roles rather than an invented modular scale. The complete wordmark is a centered flex composition without horizontal stretching: the name uses 600 weight and 0.9 line height; the slash is 0.7em/400; the role uses 500 weight and 0.99 line height. Its name and role scale at 22vw and 6.5vw within the documented clamps. The full header nickname is 19px/600 and the footer nickname 18px/600, both with −0.025em tracking. Headings generally use 500 weight and −0.04em tracking. About copy is limited to 510px, service descriptions to 410px. Supporting about prose is 15px/1.8, distinct from the 14px service body role.
+The frontmatter captures actual desktop roles rather than an invented modular scale. The complete wordmark is a centered flex composition without horizontal stretching: the name uses 600 weight and 0.9 line height; the slash is 0.7em/400; the role uses 500 weight and 0.99 line height. Its name and role scale at 17.5vw and 5.4vw within the documented clamps, sized so the six-letter «stepan» lockup spans about 87% of the width. The full header nickname is 19px/600 and the footer nickname 18px/600, both with −0.025em tracking. Headings generally use 500 weight and −0.04em tracking. About copy is limited to 510px, service descriptions to 410px. Supporting about prose is 15px/1.8, distinct from the 14px service body role.
 
-At 640px and below, the wordmark name is 21vw and role 6.3vw; header and footer nicknames are 15px and 17px. The centered hero title is `clamp(31px, 8.6vw, 54px)`/1.12; the reveal title is `clamp(34px, 8.5vw, 52px)`/1.2; service titles are 27px; contact type is `clamp(42px, 11.2vw, 69px)`/1.1. Service descriptions remain 14px. Functional scene labels and service tags remain 11px; the hero baseline uses 10px.
+At 640px and below, the wordmark name is 17.5vw and role 5.3vw; header and footer nicknames are 15px and 17px. The centered hero title is `clamp(31px, 8.6vw, 54px)`/1.12; the reveal title is `clamp(34px, 8.5vw, 52px)`/1.2; service titles are 27px; contact type is `clamp(42px, 11.2vw, 69px)`/1.1. Service descriptions remain 14px. Functional scene labels and service tags remain 11px; the hero baseline uses 10px.
 
 ## Layout
 
-Use the fluid gutter token, changing to 22px at 640px. Main dark sections have a maximum width of 1800px; the contact content and footer have 1656px. Desktop about and contact copy use two equal columns. Expertise uses a 1.08fr/1fr grid with a 7vw gap. The hero uses `max(100svh, 880px)`, bounded by 880–1400px. Its enlarged statement is centered between the gutters at `clamp(175px, 19svh, 250px)` from the top; the complete wordmark is centered 65px above the bottom.
+Use the fluid gutter token, changing to 22px at 640px. Main dark sections have a maximum width of 1800px; the contact content and footer have 1656px. The «Подход» statement and the services heading are centred in one column; contact copy uses two equal columns. Expertise uses a 1.08fr/1fr grid with a 7vw gap. The hero uses `max(100svh, 880px)`, bounded by 880–1400px. Its enlarged statement is centered between the gutters at `clamp(175px, 19svh, 250px)` from the top; the complete wordmark is centered 65px above the bottom.
 
 - **At 1800px and above:** position hero metadata 460px and the wordmark 75px above the bottom; preserve the clamped name/role sizes.
 - **At 1000px and below:** hide the header contact link and tighten spacing. The hero has an 840px minimum; centered copy begins 190px from the top with a 6.8vw headline.
@@ -218,11 +218,11 @@ Rows and document sections remain open and square. Small exceptions are the 9px 
 - **Process interlude:** the shared black surface and copper accents frame a large title (`clamp(55px, 6.1vw, 98px)`/1.08) and a semantic three-step sequence with thin progress rules. `src/process.js` projects a true parametric torus into a 2D canvas; scroll rotates it on three axes. Depth changes line opacity and 0.6–0.9px strokes. Drawing is requested only on scroll, resize, visibility, or motion-preference changes, capped at 1.5 device ratio. Reduced motion uses a fixed 0.3 progress pose and complete step rules. At 640px the title becomes `clamp(37px, 10vw, 62px)`/1.1 and steps stack.
 - **Hero light:** local WebGL draws grainy ember and amber plumes through black. Two noise currents bend the light, with broader waves, stronger brightness variation, and traveling warm highlights. The shader clock advances at 0.28 radians per second, making the flow visible within a few seconds; frame-independent easing follows the mouse with a 1.15s time constant and scroll with a 0.8s time constant. Rendering targets 60fps with a fine pointer and 30fps on touch, capped at 1600px width, 1.5 device ratio, and 1.6 million pixels. Its local clock pauses offscreen and in hidden tabs, so returning never jumps to a different phase. Hero copy enters with opacity only; the wordmark has no positional entrance. CSS radial gradients remain as the fallback.
 - **Scroll reveal:** the about heading brightens word by word from `reveal-dim` to `text`, between top 85% and bottom 43%, with 0.6 scrub and 0.14 stagger. The spark rotates 130° through its section. Text exists fully readable before scripting.
-- **Motion access:** Lenis uses duration 1.15 with smooth wheel; touch is eased too (`syncTouch`, lerp 0.08) and runs at 0.75 of the native swipe distance, at the owner's request for slower scrolling on phones. Reduced motion at load disables Lenis and GSAP entrance/reveal animations; CSS disables transitions and loops, forces readable reveal text, and removes sticky service behavior. WebGL draws a still frame. Service buttons and navigation remain usable.
+- **Motion access:** Lenis uses duration 1.15 with smooth wheel and native touch (`syncTouch: false`); a slowed, eased touch scroll was tried and rejected as slow and jerky on phones. Reduced motion at load disables Lenis and GSAP entrance/reveal animations; CSS disables transitions and loops, forces readable reveal text, and removes sticky service behavior. WebGL draws a still frame. Service buttons and navigation remain usable.
 
 ## Do's and Don'ts
 
-- **Do** preserve the complete indivisible nickname ssss / web developer and the direct Telegram destination @added08.
+- **Do** preserve the complete indivisible nickname stepan / web developer and the direct Telegram destination @added08.
 - **Do** keep oversized type, warm hero light, generous spacing, and thin separators as the pinned visual language.
 - **Do** keep body copy readable and interactive states visible on small screens and with reduced motion.
 - **Do** reserve dimensional shadows and perspective for the capability artwork and copper torus.

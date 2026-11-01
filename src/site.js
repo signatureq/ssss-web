@@ -13,13 +13,11 @@ export function initSite() {
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   let lenis;
   if (!reduced) {
-    // Touch scrolling is eased too, a quarter slower than the native swipe.
+    // Touch keeps the phone's own scrolling: eased touch felt slow and jerky.
     lenis = new Lenis({
       duration: 1.15,
       smoothWheel: true,
-      syncTouch: true,
-      syncTouchLerp: 0.08,
-      touchMultiplier: 0.75,
+      syncTouch: false,
       anchors: false,
     });
     lenis.on("scroll", ScrollTrigger.update);

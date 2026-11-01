@@ -24,4 +24,4 @@ User explicitly requests a premium site very similar in atmosphere and motion to
 
 ## Open Decisions
 
-Confirmed by user: the full nickname is exactly "ssss / web developer", not ssss plus a secondary job description. Every brand lockup must include the full nickname. Form recipient: anapa2007@macrowback.xyz; owner confirmed FormSubmit activation and supplied a screenshot confirming receipt of the first test inquiry. Alternative contact: @added08. Russian is inferred from the request; the user explicitly requested Russian email subject and fields.
+Confirmed by user: the full nickname is exactly "stepan / web developer" (changed from "ssss / web developer" on 2 November 2026; the domain stays ssss-web.ru). Every brand lockup must include the full nickname. Form recipient: anapa2007@macrowback.xyz; owner confirmed FormSubmit activation and supplied a screenshot confirming receipt of the first test inquiry. Alternative contact: @added08. Russian is inferred from the request; the user explicitly requested Russian email subject and fields.
