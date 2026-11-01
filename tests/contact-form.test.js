@@ -39,23 +39,32 @@ test("posts all form fields to the AJAX endpoint and accepts confirmed success",
   assert.deepEqual(received.payload, payload);
 });
 
-test("preserves Russian email labels and sets the visitor as Reply-To", async () => {
+function contactForm(contact) {
   const formData = new FormData();
   for (const [key, value] of Object.entries({
-    Имя: "Тест",
-    Почта: "visitor@example.com",
+    Контакт: contact,
     Сообщение: "Нужен сайт",
     _subject: "Новая заявка с сайта",
     _template: "basic",
     _honey: "",
   })) formData.set(key, value);
-  await sendContactMessage(`${origin}/recipient`, createContactPayload(formData));
-  assert.equal(received.payload.Имя, "Тест");
+  return formData;
+}
+
+test("preserves Russian email labels and sets an email contact as Reply-To", async () => {
+  await sendContactMessage(`${origin}/recipient`, createContactPayload(contactForm("visitor@example.com")));
+  assert.equal(received.payload.Контакт, "visitor@example.com");
   assert.equal(received.payload.Сообщение, "Нужен сайт");
-  assert.equal(received.payload._replyto, received.payload.Почта);
+  assert.equal(received.payload._replyto, "visitor@example.com");
   assert.equal(received.payload._subject, "Новая заявка с сайта");
   assert.equal(received.payload.email, undefined);
   assert.equal(received.payload.message, undefined);
+});
+
+test("keeps a Telegram contact without inventing a Reply-To", async () => {
+  await sendContactMessage(`${origin}/recipient`, createContactPayload(contactForm("@visitor")));
+  assert.equal(received.payload.Контакт, "@visitor");
+  assert.equal(received.payload._replyto, undefined);
 });
 
 test("does not mistake the service's string false for success", async () => {

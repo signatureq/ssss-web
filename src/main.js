@@ -5,9 +5,10 @@ import { initContactForm } from "./contact-form.js";
 
 initContactForm(document.querySelector(".contact-form"));
 
-const { reduced, motionPreference, gsap } = initSite();
+const { reduced, motionPreference, gsap, ScrollTrigger, scrollToY } = initSite();
 
 const scene = document.querySelector(".design-object");
+const sceneViews = [...scene.querySelectorAll(".scene")];
 const caption = document.querySelector("#visual-caption");
 const sceneIndex = document.querySelector(".visual-index");
 const serviceButtons = [...document.querySelectorAll(".service")];
@@ -16,19 +17,74 @@ const scenes = {
   code: ["Адаптивная вёрстка", "02 — 03"],
   quality: ["Проверка перед запуском", "03 — 03"],
 };
+let currentService = 0;
 function selectService(button) {
+  const next = serviceButtons.indexOf(button);
+  if (next === currentService) return;
+  currentService = next;
   serviceButtons.forEach((item) => {
     const active = item === button;
     item.classList.toggle("active", active);
     item.setAttribute("aria-pressed", String(active));
   });
+  sceneViews.forEach((view, index) => {
+    view.classList.toggle("is-active", index === next);
+    view.classList.toggle("is-before", index < next);
+  });
   scene.dataset.scene = button.dataset.service;
   const [text, index] = scenes[button.dataset.service];
   caption.textContent = text;
+  caption.classList.remove("swap");
+  void caption.offsetWidth;
+  caption.classList.add("swap");
   sceneIndex.textContent = index;
 }
-serviceButtons.forEach((button) =>
-  button.addEventListener("click", () => selectService(button)),
+
+// Scrolling through the list turns the pages; a click scrolls to its row so both stay in step.
+let serviceTriggers = [];
+gsap.matchMedia().add(
+  { wide: "(min-width: 641px)", narrow: "(max-width: 640px)" },
+  ({ conditions }) => {
+    const line = conditions.wide ? "55%" : "78%";
+    serviceTriggers = serviceButtons.map((button) =>
+      ScrollTrigger.create({
+        trigger: button,
+        start: `top ${line}`,
+        end: `bottom ${line}`,
+        onToggle: (self) => self.isActive && selectService(button),
+      }),
+    );
+    if (conditions.narrow) {
+      ScrollTrigger.create({
+        trigger: serviceButtons[0],
+        start: "top 96px",
+        endTrigger: ".studio",
+        end: "bottom top",
+        toggleClass: { targets: ".studio-visual", className: "masking" },
+      });
+    }
+    gsap.fromTo(
+      ".visual-progress i",
+      { scaleX: 0 },
+      {
+        scaleX: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".services",
+          start: `top ${line}`,
+          end: `bottom ${line}`,
+          scrub: true,
+        },
+      },
+    );
+  },
+);
+serviceButtons.forEach((button, index) =>
+  button.addEventListener("click", () => {
+    selectService(button);
+    const trigger = serviceTriggers[index];
+    if (trigger) scrollToY(trigger.start + (trigger.end - trigger.start) * 0.3);
+  }),
 );
 
 if (!reduced) {
@@ -73,17 +129,19 @@ if (!reduced) {
       scrub: 1,
     },
   });
-  // The wordmark drifts apart slightly as the hero leaves, adding depth without moving copy.
-  gsap.to(".hero-wordmark", {
-    yPercent: 18,
-    opacity: 0.35,
-    ease: "none",
-    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
-  });
-  gsap.to(".hero-lead", {
-    yPercent: -30,
-    ease: "none",
-    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+  // On larger screens the wordmark drifts as the hero leaves; phones keep the hero still.
+  gsap.matchMedia().add("(min-width: 641px)", () => {
+    gsap.to(".hero-wordmark", {
+      yPercent: 18,
+      opacity: 0.35,
+      ease: "none",
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+    });
+    gsap.to(".hero-lead", {
+      yPercent: -30,
+      ease: "none",
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+    });
   });
   gsap.from(".footer-wordmark span", {
     yPercent: 100,

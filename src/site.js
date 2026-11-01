@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "lenis/dist/lenis.css";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 // Shared chrome for every page: smooth scroll, header, menu, cursor and reveals.
 export function initSite() {
@@ -133,7 +134,12 @@ export function initSite() {
   if (!reduced) initReveals();
   document.fonts.ready.then(() => ScrollTrigger.refresh());
 
-  return { lenis, reduced, motionPreference, gsap, ScrollTrigger, scrollToHash };
+  function scrollToY(top) {
+    if (lenis) lenis.scrollTo(top, { duration: 1.1, force: true });
+    else window.scrollTo({ top, behavior: "instant" });
+  }
+
+  return { lenis, reduced, motionPreference, gsap, ScrollTrigger, scrollToHash, scrollToY };
 }
 
 function initCursor() {
@@ -269,28 +275,44 @@ function initReveals() {
       scrollTrigger: { trigger: element, start: "top 92%", once: true },
     });
   });
-  gsap.utils.toArray("[data-reveal='image']").forEach((frame) => {
-    const image = frame.querySelector("img");
-    gsap.fromTo(
-      frame,
-      { clipPath: "inset(18% 6% 18% 6% round 14px)" },
-      {
-        clipPath: "inset(0% 0% 0% 0% round 0px)",
-        ease: "power2.out",
-        scrollTrigger: { trigger: frame, start: "top 95%", end: "top 45%", scrub: 0.8 },
-      },
-    );
-    if (image) {
-      gsap.fromTo(
-        image,
-        { scale: 1.18, yPercent: -4 },
-        {
-          scale: 1.04,
-          yPercent: 4,
-          ease: "none",
-          scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: true },
-        },
-      );
-    }
-  });
+  // Wide screens open each frame with a scrubbed wipe and parallax; phones just let it rise in.
+  gsap.matchMedia().add(
+    { wide: "(min-width: 641px)", narrow: "(max-width: 640px)" },
+    ({ conditions }) => {
+      gsap.utils.toArray("[data-reveal='image']").forEach((frame) => {
+        if (conditions.narrow) {
+          gsap.from(frame, {
+            y: 30,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: frame, start: "top 92%", once: true },
+          });
+          return;
+        }
+        const image = frame.querySelector("img");
+        gsap.fromTo(
+          frame,
+          { clipPath: "inset(18% 6% 18% 6% round 14px)" },
+          {
+            clipPath: "inset(0% 0% 0% 0% round 0px)",
+            ease: "power2.out",
+            scrollTrigger: { trigger: frame, start: "top 95%", end: "top 45%", scrub: 0.8 },
+          },
+        );
+        if (image) {
+          gsap.fromTo(
+            image,
+            { scale: 1.18, yPercent: -4 },
+            {
+              scale: 1.04,
+              yPercent: 4,
+              ease: "none",
+              scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: true },
+            },
+          );
+        }
+      });
+    },
+  );
 }

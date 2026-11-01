@@ -39,16 +39,18 @@ if (!reduced) {
     stagger: 0.08,
     scrollTrigger: { trigger: ".index-list", start: "top 90%", once: true },
   });
-  gsap.utils.toArray(".work-num").forEach((number) => {
-    gsap.fromTo(
-      number,
-      { yPercent: 40 },
-      {
-        yPercent: -40,
-        ease: "none",
-        scrollTrigger: { trigger: number.closest(".work"), start: "top bottom", end: "bottom top", scrub: true },
-      },
-    );
+  gsap.matchMedia().add("(min-width: 641px)", () => {
+    gsap.utils.toArray(".work-num").forEach((number) => {
+      gsap.fromTo(
+        number,
+        { yPercent: 40 },
+        {
+          yPercent: -40,
+          ease: "none",
+          scrollTrigger: { trigger: number.closest(".work"), start: "top bottom", end: "bottom top", scrub: true },
+        },
+      );
+    });
   });
   gsap.from(".footer-wordmark span", {
     yPercent: 100,

@@ -29,9 +29,13 @@ export async function sendContactMessage(
   }
 }
 
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// The contact field takes an email or a Telegram handle; only an email can be Reply-To.
 export function createContactPayload(formData) {
   const payload = Object.fromEntries(formData);
-  payload._replyto = payload["Почта"];
+  const contact = String(payload["Контакт"] ?? "").trim();
+  if (EMAIL.test(contact)) payload._replyto = contact;
   return payload;
 }
 
@@ -70,7 +74,7 @@ export function initContactForm(form) {
       await sendContactMessage(form.action, payload);
       form.reset();
       status.dataset.state = "success";
-      status.textContent = "Сообщение отправлено. Отвечу на указанную почту.";
+      status.textContent = "Сообщение отправлено. Скоро свяжусь с вами по указанному контакту.";
     } catch {
       status.dataset.state = "error";
       status.textContent =

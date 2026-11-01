@@ -841,16 +841,19 @@
   border-radius: 12px;
   background: #1a1a18;
   box-shadow: 0 30px 80px -30px #000c;
-  opacity: 0;
-  transform: translateY(14px) scale(0.985);
+  /* Scenes wipe like pages: the next rises from below, the previous lifts away. */
+  clip-path: inset(calc(100% + 40px) -40px -90px -40px);
+  transform: translateY(7%);
   transition:
-    opacity 0.5s var(--ease),
-    transform 0.7s var(--ease);
+    clip-path 0.95s var(--ease),
+    transform 0.95s var(--ease);
 }
-[data-scene="design"] .scene-design,
-[data-scene="code"] .scene-code,
-[data-scene="quality"] .scene-quality {
-  opacity: 1;
+.scene.is-before {
+  clip-path: inset(-40px -40px calc(100% + 90px) -40px);
+  transform: translateY(-7%);
+}
+.scene.is-active {
+  clip-path: inset(-40px -40px -90px -40px);
   transform: none;
 }
 .scene .browser-bar {
@@ -1236,17 +1239,270 @@
     inset: 15% 7%;
   }
 }
-@media (max-width: 640px) {
+
+/* Scroll-led services: the visual holds still while the list scrolls past it. */
+.studio {
+  align-items: start;
+}
+.visual-progress {
+  flex: 1;
+  max-width: 120px;
+  height: 1px;
+  margin: 0 20px 0 auto;
+  background: #34332f;
+  overflow: hidden;
+}
+.visual-progress i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+#visual-caption.swap {
+  animation: caption-in 0.6s var(--ease) both;
+}
+@keyframes caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@media (min-width: 641px) {
   .studio-visual {
-    aspect-ratio: 0.92;
+    position: sticky;
+    top: 110px;
+  }
+  .service {
+    min-height: clamp(290px, 44svh, 430px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .service-top {
+    width: 100%;
+  }
+}
+@media (max-width: 640px) {
+  .studio {
+    gap: 6px;
+  }
+  .studio-visual {
+    position: sticky;
+    top: 96px;
+    z-index: 3;
+    aspect-ratio: 1.12;
+    /* A soft fade below the pinned visual; ink above only once list text passes under it. */
+    box-shadow:
+      0 14px 0 0 var(--ink),
+      0 34px 18px 0 var(--ink);
+  }
+  .studio-visual.masking {
+    box-shadow:
+      0 -110px 0 0 var(--ink),
+      0 14px 0 0 var(--ink),
+      0 34px 18px 0 var(--ink);
+  }
+  .visual-label {
+    top: 18px;
+  }
+  .visual-footer {
+    bottom: 16px;
+  }
+  .visual-note {
+    display: none;
+  }
+  .visual-progress {
+    margin-left: 0;
   }
   .design-object {
-    inset: 15% 6% 16%;
+    inset: 13% 5% 14%;
   }
   .scene {
     border-radius: 9px;
   }
+  .scene-body {
+    gap: 2.6cqw;
+    padding: 3.4cqw;
+  }
+  .wire {
+    gap: 2.2cqw;
+  }
+  .wire-hero b {
+    height: 3.6cqw;
+  }
+  .wire-cards {
+    min-height: 6cqw;
+  }
+  .tokens {
+    padding-top: 2.4cqw;
+  }
+  .tokens-type b {
+    font-size: 6.4cqw;
+  }
+  .tokens-colors i {
+    width: 5.6cqw;
+    height: 5.6cqw;
+  }
+  .code {
+    line-height: 1.9;
+  }
   .phone {
-    width: 19cqw;
+    width: 18cqw;
+  }
+  .checks li {
+    padding: 1.7cqw 0;
+  }
+  .service {
+    min-height: 44svh;
+    padding: 34px 0;
+  }
+  .service:not(.active) .service-top {
+    color: #8d8a83;
+  }
+}
+
+/* Contact: two fields, actions on one line, both columns end on the same edge. */
+.contact-bottom {
+  align-items: stretch;
+  gap: clamp(40px, 6vw, 120px);
+}
+.contact-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding-right: 0;
+}
+.contact-intro .telegram-link {
+  margin-top: auto;
+}
+.contact-fields {
+  gap: 34px;
+}
+.contact-field > span {
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  color: #68665f;
+}
+.contact-field input,
+.contact-field textarea {
+  padding: 8px 0 14px;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+.contact-field textarea {
+  min-height: 0;
+  max-height: 240px;
+  resize: none;
+  field-sizing: content;
+}
+.contact-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding-top: 4px;
+}
+.contact .contact-form-note {
+  max-width: 34ch;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.contact-submit {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 7px 7px 7px 26px;
+  border-radius: 99px;
+  font-size: 15px;
+}
+.contact-submit-arrow {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  transition: transform 0.6s var(--ease);
+}
+.contact-submit-arrow svg {
+  width: 18px;
+  height: 18px;
+}
+.contact-submit:hover:not(:disabled) {
+  background: #2a2925;
+}
+.contact-submit:hover:not(:disabled) svg {
+  transform: none;
+}
+.contact-submit:hover:not(:disabled) .contact-submit-arrow {
+  transform: rotate(45deg);
+}
+.contact .contact-status {
+  min-height: 0;
+  margin-top: 18px;
+}
+.contact .contact-status:empty {
+  display: none;
+}
+@media (max-width: 640px) {
+  .contact-intro {
+    gap: 24px;
+  }
+  .contact-fields {
+    gap: 28px;
+  }
+  .contact-field input,
+  .contact-field textarea {
+    font-size: 18px;
+  }
+  .contact-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .contact-submit {
+    justify-content: space-between;
+  }
+}
+
+/* Touch screens: a tap must not leave hover fills stuck on. */
+@media (hover: none) {
+  .portfolio-all:hover {
+    color: var(--text);
+    border-color: var(--line);
+  }
+  .portfolio-all:hover .portfolio-all-fill {
+    transform: translateY(101%);
+  }
+  .portfolio-all:hover .portfolio-all-kicker {
+    color: var(--muted);
+  }
+  .portfolio-all:hover .portfolio-all-arrow {
+    background: var(--accent);
+    color: var(--ink);
+  }
+  .portfolio-all:hover .portfolio-all-arrow svg,
+  .contact-submit:hover:not(:disabled) .contact-submit-arrow,
+  .round-link:hover .arrow-circle,
+  .telegram-link:hover .telegram-arrow {
+    transform: none;
+  }
+  .contact-submit:hover:not(:disabled) {
+    background: #1b1b18;
+  }
+  .round-link:hover .arrow-circle {
+    background: transparent;
+    color: inherit;
+  }
+  .telegram-link:hover .telegram-arrow {
+    background: #1b1b18;
+  }
+}
+@media (max-width: 640px) {
+  .hero-lead p {
+    max-width: 300px;
   }
 }

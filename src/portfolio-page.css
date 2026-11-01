@@ -499,3 +499,29 @@
     font-size: clamp(34px, 10vw, 48px);
   }
 }
+
+@media (hover: none) {
+  .index-row:hover .index-name {
+    color: var(--text);
+    transform: none;
+  }
+  .index-row:hover::after {
+    transform: scaleX(0);
+  }
+  .index-row:hover svg {
+    color: inherit;
+    transform: none;
+  }
+  .work-link:hover .work-link-arrow {
+    background: var(--accent);
+  }
+  .work-link:hover .work-link-arrow svg,
+  .work-next:hover .work-next-spark,
+  .work-next:hover .work-next-cta svg {
+    transform: none;
+  }
+  .work-next:hover {
+    border-color: #3a3935;
+    background: transparent;
+  }
+}
