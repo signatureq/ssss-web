@@ -7,7 +7,8 @@ initContactForm(document.querySelector(".contact-form"));
 
 const { reduced, motionPreference, gsap, ScrollTrigger, scrollToY } = initSite();
 
-const scene = document.querySelector(".design-object");
+const studio = document.querySelector(".studio");
+const scene = studio.querySelector(".design-object");
 const sceneViews = [...scene.querySelectorAll(".scene")];
 const caption = document.querySelector("#visual-caption");
 const sceneIndex = document.querySelector(".visual-index");
@@ -18,18 +19,14 @@ const scenes = {
   quality: ["Проверка перед запуском", "03 — 03"],
 };
 let currentService = 0;
-function selectService(button) {
-  const next = serviceButtons.indexOf(button);
+function setActiveService(next) {
   if (next === currentService) return;
   currentService = next;
+  const button = serviceButtons[next];
   serviceButtons.forEach((item) => {
     const active = item === button;
     item.classList.toggle("active", active);
     item.setAttribute("aria-pressed", String(active));
-  });
-  sceneViews.forEach((view, index) => {
-    view.classList.toggle("is-active", index === next);
-    view.classList.toggle("is-before", index < next);
   });
   scene.dataset.scene = button.dataset.service;
   const [text, index] = scenes[button.dataset.service];
@@ -39,51 +36,96 @@ function selectService(button) {
   caption.classList.add("swap");
   sceneIndex.textContent = index;
 }
+const indexAt = (progress) => (progress < 1 / 3 ? 0 : progress < 2 / 3 ? 1 : 2);
+// Where a click lands inside the list: the calm middle of each service's stretch.
+const restingPoints = [0.12, 0.5, 0.88];
+let servicesTrigger;
 
-// Scrolling through the list turns the pages; a click scrolls to its row so both stay in step.
-let serviceTriggers = [];
-gsap.matchMedia().add(
-  { wide: "(min-width: 641px)", narrow: "(max-width: 640px)" },
-  ({ conditions }) => {
-    const line = conditions.wide ? "55%" : "78%";
-    serviceTriggers = serviceButtons.map((button) =>
-      ScrollTrigger.create({
-        trigger: button,
-        start: `top ${line}`,
-        end: `bottom ${line}`,
-        onToggle: (self) => self.isActive && selectService(button),
-      }),
-    );
-    if (conditions.narrow) {
-      ScrollTrigger.create({
-        trigger: serviceButtons[0],
-        start: "top 96px",
-        endTrigger: ".studio",
-        end: "bottom top",
-        toggleClass: { targets: ".studio-visual", className: "masking" },
+// Wide screens: the pinned visual blends from scene to scene in step with the scroll itself.
+function scrubScenes() {
+  const [first, second, third] = sceneViews;
+  // Fresh objects each time: gsap.set writes duration 0 into the vars it receives.
+  // The next card slides up from below the panel and covers the previous one, which recedes.
+  const hidden = () => ({ autoAlpha: 1, yPercent: 125, scale: 1 });
+  const shown = () => ({ autoAlpha: 1, yPercent: 0, scale: 1 });
+  const leaving = () => ({ autoAlpha: 0, yPercent: -4, scale: 0.9 });
+  gsap.set(first, shown());
+  gsap.set([second, third], reduced ? { autoAlpha: 0 } : hidden());
+  gsap.set(".visual-progress i", { scaleX: 0 });
+  const timeline = gsap.timeline({
+    defaults: { ease: "power1.inOut", duration: 0.19 },
+    scrollTrigger: {
+      trigger: ".services",
+      start: "top 55%",
+      end: "bottom 55%",
+      scrub: reduced ? true : 0.7,
+      onUpdate: (self) => setActiveService(indexAt(self.progress)),
+    },
+  });
+  timeline.to(".visual-progress i", { scaleX: 1, ease: "none", duration: 1 }, 0);
+  if (reduced) {
+    timeline
+      .set(first, { autoAlpha: 0 }, 1 / 3)
+      .set(second, { autoAlpha: 1 }, 1 / 3)
+      .set(second, { autoAlpha: 0 }, 2 / 3)
+      .set(third, { autoAlpha: 1 }, 2 / 3);
+  } else {
+    timeline
+      .to(second, shown(), 0.24)
+      .to(first, leaving(), 0.24)
+      .to(third, shown(), 0.57)
+      .to(second, leaving(), 0.57);
+  }
+  servicesTrigger = timeline.scrollTrigger;
+  return () => {
+    servicesTrigger = undefined;
+  };
+}
+
+// Phones: no pinning; each service gets its own copy of its scene above the text.
+function inlineScenes() {
+  studio.classList.add("studio--inline");
+  const panels = serviceButtons.map((button, index) => {
+    const panel = document.createElement("div");
+    panel.className = "service-visual";
+    panel.setAttribute("aria-hidden", "true");
+    const holder = document.createElement("div");
+    holder.className = "design-object";
+    holder.append(sceneViews[index].cloneNode(true));
+    panel.append(holder);
+    button.before(panel);
+    ScrollTrigger.create({
+      trigger: panel,
+      start: "top 80%",
+      once: true,
+      onEnter: () => (holder.dataset.scene = button.dataset.service),
+    });
+    if (!reduced) {
+      gsap.from(panel, {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: panel, start: "top 92%", once: true },
       });
     }
-    gsap.fromTo(
-      ".visual-progress i",
-      { scaleX: 0 },
-      {
-        scaleX: 1,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".services",
-          start: `top ${line}`,
-          end: `bottom ${line}`,
-          scrub: true,
-        },
-      },
-    );
-  },
+    return panel;
+  });
+  return () => {
+    panels.forEach((panel) => panel.remove());
+    studio.classList.remove("studio--inline");
+  };
+}
+
+gsap.matchMedia().add(
+  { wide: "(min-width: 641px)", narrow: "(max-width: 640px)" },
+  ({ conditions }) => (conditions.wide ? scrubScenes() : inlineScenes()),
 );
 serviceButtons.forEach((button, index) =>
   button.addEventListener("click", () => {
-    selectService(button);
-    const trigger = serviceTriggers[index];
-    if (trigger) scrollToY(trigger.start + (trigger.end - trigger.start) * 0.3);
+    if (!servicesTrigger) return;
+    const { start, end } = servicesTrigger;
+    scrollToY(start + (end - start) * restingPoints[index]);
   }),
 );
 

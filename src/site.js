@@ -213,8 +213,8 @@ function initMarquees(reduced, velocity) {
     new IntersectionObserver(([entry]) => (visible = entry.isIntersecting)).observe(marquee);
     gsap.ticker.add((_, delta) => {
       if (!visible || !half) return;
-      const boost = Math.min(Math.abs(velocity()) * 0.9, 14);
-      x += direction * (0.055 * delta + boost);
+      const boost = Math.min(Math.abs(velocity()) * 0.45, 7);
+      x += direction * (0.027 * delta + boost);
       if (x <= -half) x += half;
       if (x > 0) x -= half;
       track.style.transform = `translate3d(${x}px,0,0)`;

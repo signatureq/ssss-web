@@ -841,20 +841,12 @@
   border-radius: 12px;
   background: #1a1a18;
   box-shadow: 0 30px 80px -30px #000c;
-  /* Scenes wipe like pages: the next rises from below, the previous lifts away. */
-  clip-path: inset(calc(100% + 40px) -40px -90px -40px);
-  transform: translateY(7%);
-  transition:
-    clip-path 0.95s var(--ease),
-    transform 0.95s var(--ease);
+  /* Only the first scene shows until the scroll timeline takes over opacity and position. */
+  opacity: 0;
+  will-change: opacity, transform;
 }
-.scene.is-before {
-  clip-path: inset(-40px -40px calc(100% + 90px) -40px);
-  transform: translateY(-7%);
-}
-.scene.is-active {
-  clip-path: inset(-40px -40px -90px -40px);
-  transform: none;
+.scene-design {
+  opacity: 1;
 }
 .scene .browser-bar {
   flex: none;
@@ -1284,31 +1276,6 @@
   }
 }
 @media (max-width: 640px) {
-  .studio {
-    gap: 6px;
-  }
-  .studio-visual {
-    position: sticky;
-    top: 96px;
-    z-index: 3;
-    aspect-ratio: 1.12;
-    /* A soft fade below the pinned visual; ink above only once list text passes under it. */
-    box-shadow:
-      0 14px 0 0 var(--ink),
-      0 34px 18px 0 var(--ink);
-  }
-  .studio-visual.masking {
-    box-shadow:
-      0 -110px 0 0 var(--ink),
-      0 14px 0 0 var(--ink),
-      0 34px 18px 0 var(--ink);
-  }
-  .visual-label {
-    top: 18px;
-  }
-  .visual-footer {
-    bottom: 16px;
-  }
   .visual-note {
     display: none;
   }
@@ -1353,12 +1320,54 @@
   .checks li {
     padding: 1.7cqw 0;
   }
-  .service {
-    min-height: 44svh;
-    padding: 34px 0;
+
+  /* Phones: each service carries its own scene, read top to bottom without pinning. */
+  .studio--inline .studio-visual {
+    display: none;
   }
-  .service:not(.active) .service-top {
-    color: #8d8a83;
+  .studio--inline {
+    gap: 0;
+  }
+  .service-visual {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    container-type: inline-size;
+    aspect-ratio: 1.2;
+    margin-top: 34px;
+    border-radius: 12px;
+    background: #141413;
+  }
+  .service-visual:first-child {
+    margin-top: 0;
+  }
+  .service-visual::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(ellipse at 40% 60%, #4a241b 0%, transparent 70%);
+  }
+  .service-visual .design-object {
+    inset: 9% 6%;
+  }
+  .service-visual .scene {
+    opacity: 1;
+  }
+  .studio--inline .service {
+    padding: 26px 0 40px;
+  }
+  .studio--inline .service:first-of-type {
+    border-top: 0;
+  }
+  .studio--inline .service .service-top {
+    color: var(--text);
+  }
+  .studio--inline .service .service-top svg {
+    display: none;
+  }
+  .studio--inline .service .service-num {
+    color: var(--accent);
   }
 }
 
