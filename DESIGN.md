@@ -169,7 +169,7 @@ The full nickname is the indivisible identity ssss / web developer; retain the c
 
 - Near-black sections followed by a warm paper contact section.
 - Self-hosted geometric type, tight display spacing, restrained labels.
-- A centered large headline, complete wordmark, living light field, scroll-lit words, capability scene, and copper process interlude.
+- A centered large headline, complete wordmark, living light field, scroll-lit words, a centred services flow, and copper process interlude.
 - Thin dividers, open rows, circular arrows, and minimal surface rounding.
 
 ## Colors
@@ -180,7 +180,7 @@ The functional accent is warm scarlet; neutral colors lean slightly warm rather 
 - **Neutral — Ink, panel, text, muted, line:** the root CSS variables govern the dark document, readable text hierarchy, and thin separators.
 - **Neutral — Warm paper and contact ink:** `contact-surface` / `contact-ink` invert the closing section. Its muted copy and arrow hover have their own extracted values.
 - **Process — Copper on black:** `process-surface`, `process-accent`, and `process-muted` define the black interlude with copper accents and its three-step sequence.
-- **Artwork:** the complete hero wordmark is warm cream with normal blending. The scene adds paper, charcoal code, and locally rendered ember/amber light; these illustrative hues do not define new UI status colors.
+- **Artwork:** the complete hero wordmark is warm cream with normal blending.
 
 **The Reference Exception Rule.** Preserve the pinned reference's large cream wordmark and warm red light field; do not normalize them into a small logo or a generic flat hero.
 
@@ -197,30 +197,28 @@ At 640px and below, the wordmark name is 21vw and role 6.3vw; header and footer 
 Use the fluid gutter token, changing to 22px at 640px. Main dark sections have a maximum width of 1800px; the contact content and footer have 1656px. Desktop about and contact copy use two equal columns. Expertise uses a 1.08fr/1fr grid with a 7vw gap. The hero uses `max(100svh, 880px)`, bounded by 880–1400px. Its enlarged statement is centered between the gutters at `clamp(175px, 19svh, 250px)` from the top; the complete wordmark is centered 65px above the bottom.
 
 - **At 1800px and above:** position hero metadata 460px and the wordmark 75px above the bottom; preserve the clamped name/role sizes.
-- **At 1000px and below:** hide the header contact link, tighten spacing, and use equal scene/service columns with a 5vw gap. The hero has an 840px minimum; centered copy begins 190px from the top with a 6.8vw headline.
-- **At 640px and below:** use single-column content, 95px about spacing, a 93px header, and a `max(94svh, 760px)` hero bounded by 760–1100px. Centered hero copy begins 175px from the top with 18px side insets; the complete wordmark sits 85px above the bottom. The scene precedes the service list; its aspect ratio is 1.05. The footer wraps.
-- **Service scene:** above 640px the visual stays sticky at 110px while service rows occupy `clamp(290px, 44svh, 430px)`. One scrubbed timeline (0.7 smoothing) spans the list from 55% of the viewport: each next scene card slides up from below the panel over 19% of the list and covers the previous one, which recedes to 0.9 scale and fades. The active row and caption follow thirds of the progress; a click scrolls to the calm middle of that row's stretch. A thin scarlet line in the panel footer tracks progress. At 640px and below nothing pins: the panel is hidden and each service gets its own copy of its scene (1.2 aspect) above its text, rising in once.
+- **At 1000px and below:** hide the header contact link and tighten spacing. The hero has an 840px minimum; centered copy begins 190px from the top with a 6.8vw headline.
+- **At 640px and below:** use single-column content, 95px about spacing, a 93px header, and a `max(94svh, 760px)` hero bounded by 760–1100px. Centered hero copy begins 175px from the top with 18px side insets; the complete wordmark sits 85px above the bottom. The footer wraps.
+- **Services flow:** below the section heading, three steps sit centred in one column: a small scarlet number, a title at `clamp(52px, 10.5vw, 190px)`/0.98 with −0.055em tracking (`clamp(44px, 13vw, 72px)` at 640px), muted copy up to 540px and tags. Between steps a 1px line (`clamp(70px, 11vh, 140px)`) fills with scarlet as it crosses the viewport (scrubbed), ending in a 64px outlined circle with a down arrow (54px on phones) that links to the next step. Nothing pins and nothing switches; titles rise word by word once.
 
 The process section uses 120px/50px vertical padding and a 1656px content maximum. Its three equal step columns have a 6vw gap; at 640px they stack with a 34px gap, 70px/35px section padding, and the torus placed below the introduction. The step rules have an additional top margin of 80px on desktop, 70px at 1000px and below, and 32px at 640px and below, keeping clear of the torus canvas throughout its rotation.
 
 ## Elevation & Depth
 
-The page itself is flat: separation comes from space, thin rules, and the closing palette inversion. Depth belongs to the illustrative scene, hero light, and projected copper torus. Scene frames use `0 30px 80px -30px #000c`; the phone preview adds a 0.8cqw dark ring. Do not spread these artwork shadows to every UI control.
+The page itself is flat: separation comes from space, thin rules, and the closing palette inversion. Depth belongs to the hero light, portfolio frames and projected copper torus. Do not spread artwork shadows to every UI control.
 
 ## Shapes
 
-Rows and document sections remain open and square. Small exceptions are the 9px menu button, the 12px scene viewport and scene frames, and 12px browser frames around portfolio previews. Arrow controls are circles, 46px or 62px on desktop; the Telegram arrow becomes 51px on mobile. Rules are normally 1px. The shared arrow SVG uses 1.6 stroke width with round caps and joins; the four-point spark is filled without a stroke.
+Rows and document sections remain open and square. Small exceptions are the 9px menu button, and 12px browser frames around portfolio previews. Arrow controls are circles, 46px, 62px or the 64px services-flow arrow on desktop; the Telegram arrow becomes 51px on mobile. Rules are normally 1px. The shared arrow SVG uses 1.6 stroke width with round caps and joins; the four-point spark is filled without a stroke.
 
 ## Components
 
 - **Navigation:** a fixed header retains its 112px height (93px on mobile), adding an almost opaque ink background after 40px of scroll. The brand and controls remain at the same position through the first scroll. The four-dot menu button opens a full-viewport charcoal panel via a 0.7s inset clip. Large divider-separated links turn scarlet on hover. The menu manages focus, Escape, inert content, and scroll locking.
 - **Text and round links:** compact labels accompany thin northeast arrows. Text-link arrows move 3px on hover; circular arrows invert to cream/ink and rotate 45°. Interactive elements use a 2px scarlet focus outline with 7px offset. Telegram uses a dark filled circle that becomes burnt scarlet and rotates on hover.
-- **Service rows:** three buttons retain their descriptive text, with the active title and arrow turning scarlet and the arrow rotating 90°. All tags remain visible and occupy the same space regardless of selection. `aria-pressed` records the selection. Clicking changes the scene without moving the viewport or changing row heights.
-- **Capability scene:** a dark panel holds one straight browser frame at a time — no tilt, orb or guide marks. Design shows a wireframe on a faint scarlet 12-column grid with Manrope and three colour tokens; code shows an HTML/CSS snippet with a phone preview of the same block; quality shows desktop, tablet and phone outlines with check badges and a three-item pre-launch checklist. These are illustrations, not client projects or measured results. Sizes use container units of the panel. Scene changes are tied to scroll position, never to a timer, so they reverse exactly when scrolling up. The caption fades up on change. There is no looping movement.
 - **Process interlude:** the shared black surface and copper accents frame a large title (`clamp(55px, 6.1vw, 98px)`/1.08) and a semantic three-step sequence with thin progress rules. `src/process.js` projects a true parametric torus into a 2D canvas; scroll rotates it on three axes. Depth changes line opacity and 0.6–0.9px strokes. Drawing is requested only on scroll, resize, visibility, or motion-preference changes, capped at 1.5 device ratio. Reduced motion uses a fixed 0.3 progress pose and complete step rules. At 640px the title becomes `clamp(37px, 10vw, 62px)`/1.1 and steps stack.
 - **Hero light:** local WebGL draws grainy ember and amber plumes through black. Two noise currents bend the light, with broader waves, stronger brightness variation, and traveling warm highlights. The shader clock advances at 0.28 radians per second, making the flow visible within a few seconds; frame-independent easing follows the mouse with a 1.15s time constant and scroll with a 0.8s time constant. Rendering targets 60fps with a fine pointer and 30fps on touch, capped at 1600px width, 1.5 device ratio, and 1.6 million pixels. Its local clock pauses offscreen and in hidden tabs, so returning never jumps to a different phase. Hero copy enters with opacity only; the wordmark has no positional entrance. CSS radial gradients remain as the fallback.
 - **Scroll reveal:** the about heading brightens word by word from `reveal-dim` to `text`, between top 85% and bottom 43%, with 0.6 scrub and 0.14 stagger. The spark rotates 130° through its section. Text exists fully readable before scripting.
-- **Motion access:** Lenis uses duration 1.15 with smooth wheel and native touch (`syncTouch: false`). Reduced motion at load disables Lenis and GSAP entrance/reveal animations; CSS disables transitions and loops, forces readable reveal text, and removes sticky service behavior. WebGL draws a still frame. Service buttons and navigation remain usable.
+- **Motion access:** Lenis uses duration 1.15 with smooth wheel; touch is eased too (`syncTouch`, lerp 0.08) and runs at 0.75 of the native swipe distance, at the owner's request for slower scrolling on phones. Reduced motion at load disables Lenis and GSAP entrance/reveal animations; CSS disables transitions and loops, forces readable reveal text, and removes sticky service behavior. WebGL draws a still frame. Service buttons and navigation remain usable.
 
 ## Do's and Don'ts
 

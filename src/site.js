@@ -13,10 +13,13 @@ export function initSite() {
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   let lenis;
   if (!reduced) {
+    // Touch scrolling is eased too, a quarter slower than the native swipe.
     lenis = new Lenis({
       duration: 1.15,
       smoothWheel: true,
-      syncTouch: false,
+      syncTouch: true,
+      syncTouchLerp: 0.08,
+      touchMultiplier: 0.75,
       anchors: false,
     });
     lenis.on("scroll", ScrollTrigger.update);
@@ -134,12 +137,7 @@ export function initSite() {
   if (!reduced) initReveals();
   document.fonts.ready.then(() => ScrollTrigger.refresh());
 
-  function scrollToY(top) {
-    if (lenis) lenis.scrollTo(top, { duration: 1.1, force: true });
-    else window.scrollTo({ top, behavior: "instant" });
-  }
-
-  return { lenis, reduced, motionPreference, gsap, ScrollTrigger, scrollToHash, scrollToY };
+  return { lenis, reduced, motionPreference, gsap, ScrollTrigger, scrollToHash };
 }
 
 function initCursor() {
@@ -213,7 +211,7 @@ function initMarquees(reduced, velocity) {
     new IntersectionObserver(([entry]) => (visible = entry.isIntersecting)).observe(marquee);
     gsap.ticker.add((_, delta) => {
       if (!visible || !half) return;
-      const boost = Math.min(Math.abs(velocity()) * 0.45, 7);
+      const boost = Math.min(Math.abs(velocity()) * 0.1, 1.2);
       x += direction * (0.027 * delta + boost);
       if (x <= -half) x += half;
       if (x > 0) x -= half;

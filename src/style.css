@@ -588,118 +588,6 @@ h2 {
   line-height: 1.75;
   padding-bottom: 5px;
 }
-.studio {
-  display: grid;
-  grid-template-columns: 1.08fr 1fr;
-  gap: 7vw;
-  align-items: center;
-}
-.studio-visual {
-  background: #141413;
-  min-width: 0;
-  aspect-ratio: 1;
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  isolation: isolate;
-}
-.studio-visual:before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(ellipse at 40% 60%, #4a241b 0%, transparent 70%);
-}
-.visual-label,
-.visual-footer {
-  position: absolute;
-  left: 25px;
-  right: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #a9a59d;
-  font-size: 10px;
-  z-index: 3;
-}
-.visual-label {
-  top: 24px;
-  justify-content: flex-start;
-  gap: 8px;
-}
-.live-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 100%;
-  background: var(--accent);
-  display: inline-block;
-  flex: none;
-}
-.visual-footer {
-  bottom: 24px;
-}
-.visual-index {
-  color: #827e75;
-  font-variant-numeric: tabular-nums;
-}
-.services {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.service {
-  background: transparent;
-  text-align: left;
-  width: 100%;
-  padding: 30px 0;
-  border-bottom: 1px solid var(--line);
-  transition: color 0.3s;
-  display: block;
-}
-.service:first-child {
-  border-top: 1px solid var(--line);
-}
-.service-top {
-  font-size: clamp(23px, 2.5vw, 38px);
-  letter-spacing: -0.03em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-.service-top svg {
-  width: 21px;
-  height: 21px;
-  color: #827f77;
-  transition:
-    transform 0.5s var(--ease),
-    color 0.4s;
-}
-.service:hover .service-top,
-.service.active .service-top {
-  color: var(--accent);
-}
-.service.active .service-top svg {
-  color: var(--accent);
-  transform: rotate(90deg);
-}
-.service-copy {
-  display: block;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.8;
-  max-width: 410px;
-  padding-top: 18px;
-}
-.service-tags {
-  display: block;
-  margin-top: 20px;
-  font-size: 10px;
-  color: #d0b4a5;
-}
-.service:not(.active) .service-copy {
-  color: #939089;
-}
 .contact {
   position: relative;
   overflow: hidden;
@@ -953,22 +841,6 @@ h2 {
   .about-copy p {
     font-size: 18px;
   }
-  .studio {
-    gap: 5vw;
-    grid-template-columns: 1fr 1fr;
-  }
-  .studio-visual {
-    aspect-ratio: 0.82;
-  }
-  .service {
-    padding: 22px 0;
-  }
-  .service-copy {
-    font-size: 12px;
-  }
-  .service-tags {
-    font-size: 9px;
-  }
   .expertise {
     padding-bottom: 110px;
   }
@@ -1115,34 +987,6 @@ h2 {
   .expertise-heading p {
     font-size: 12px;
   }
-  .studio {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .studio-visual {
-    aspect-ratio: 1.05;
-  }
-  .visual-label,
-  .visual-footer {
-    left: 20px;
-    right: 20px;
-    font-size: 8px;
-  }
-  .service {
-    padding: 24px 0;
-  }
-  .service-top {
-    font-size: 27px;
-  }
-  .service-copy {
-    font-size: 13px;
-    padding-top: 14px;
-    max-width: 100%;
-  }
-  .service-tags {
-    font-size: 10px;
-    margin-top: 14px;
-  }
   .contact {
     padding-top: 42px;
   }
@@ -1264,24 +1108,8 @@ h2 {
 .meta-detail {
   font-size: 12px;
 }
-.visual-label,
-.visual-footer,
-.service-tags {
-  font-size: 11px;
-}
 .footer-logo span {
   font-size: 11px;
-}
-.service:not(.active) .service-copy {
-  color: var(--muted);
-}
-@media (max-width: 1000px) {
-  .service-copy {
-    font-size: 14px;
-  }
-  .service-tags {
-    font-size: 11px;
-  }
 }
 @media (max-width: 640px) {
   .brand-role {
@@ -1307,19 +1135,6 @@ h2 {
   }
   .hero-baseline span:last-child {
     max-width: 155px;
-  }
-  .visual-label,
-  .visual-footer {
-    font-size: 11px;
-  }
-  .visual-footer > span:first-child {
-    max-width: 210px;
-  }
-  .service-copy {
-    font-size: 14px;
-  }
-  .service-tags {
-    font-size: 11px;
   }
   .site-footer {
     font-size: 11px;
